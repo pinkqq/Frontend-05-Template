@@ -1,117 +1,128 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js">
-  <!--<![endif]-->
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>TicTacToe</title>
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="" />
-  </head>
-  <body>
-    <!--[if lt IE 7]>
-      <p class="browsehappy">
-        You are using an <strong>outdated</strong> browser. Please
-        <a href="#">upgrade your browser</a> to improve your experience.
-      </p>
-    <![endif]-->
-    <div id="board"></div>
+<div id="board"></div>
 
-    <script>
-      let pattern = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0],
-      ];
-      let color = 1;
-      function show() {
-        const board = document.getElementById("board");
-        board.innerHTML = "";
-        for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < 3; j++) {
-            const inner = pattern[i][j];
-            const cell = board.appendChild(document.createElement("div"));
-            cell.classList.add("cell");
-            cell.innerHTML = inner === 2 ? "❌" : inner === 1 ? "⭕️" : "";
-            cell.addEventListener("click", () => play(i, j));
-          }
-          board.append(document.createElement("br"));
-        }
+<script>
+  let pattern = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+  let color = 1;
+  function show(pattern) {
+    const board = document.getElementById("board");
+    board.innerHTML = "";
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        const inner = pattern[i * 3 + j];
+        const cell = board.appendChild(document.createElement("div"));
+        cell.classList.add("cell");
+        cell.innerHTML = inner === 2 ? "❌" : inner === 1 ? "⭕️" : "";
+        cell.addEventListener("click", () => userMove(i, j));
       }
-      function play(x, y) {
-        pattern[x][y] = color;
-        if (check(pattern, color, x, y)) {
-          alert(color === 2 ? "❌ 胜利！" : "⭕️ 胜利！");
-        }
-        color = 3 - color;
-        show();
-        if (willWin(pattern, color)) {
-          console.log(color === 2 ? "❌ 快要胜利！" : "⭕️ 快要胜利！");
-        }
+      board.append(document.createElement("br"));
+    }
+  }
+  function userMove(x, y) {
+    pattern[x * 3 + y] = color;
+    if (check(pattern, color, x, y)) {
+      alert(color === 2 ? "❌ 胜利！" : "⭕️ 胜利！");
+    }
+    color = 3 - color;
+    show(pattern);
+    computerMove();
+  }
+
+  function computerMove() {
+    let chioce = bestChioce(pattern, color);
+    if (chioce.point) {
+      pattern[chioce.point[0] * 3 + chioce.point[1]] = color;
+    }
+    if (check(pattern, color, chioce.point[0], chioce.point[1])) {
+      alert(color === 2 ? "❌ 胜利！" : "⭕️ 胜利！");
+    }
+    color = 3 - color;
+    show(pattern);
+  }
+
+  function check(pattern, color, x, y) {
+    {
+      let win = true;
+      for (let i = 0; i < 3; i++) {
+        if (pattern[x * 3 + i] !== color) win = false;
       }
-      function check(pattern, color, x, y) {
-        {
-          let win = true;
-          for (let i = 0; i < 3; i++) {
-            if (pattern[x][i] !== color) win = false;
-          }
-          if (win) return true;
-        }
-        {
-          let win = true;
-          for (let i = 0; i < 3; i++) {
-            if (pattern[i][y] !== color) win = false;
-          }
-          if (win) return true;
-        }
-        {
-          let win = true;
-          for (let i = 0; i < 3; i++) {
-            if (pattern[i][i] !== color) win = false;
-          }
-          if (win) return true;
-        }
-        {
-          let win = true;
-          for (let i = 0; i < 3; i++) {
-            if (pattern[i][3 - i] !== color) win = false;
-          }
-          if (win) return true;
-        }
-        return false;
+      if (win) return true;
+    }
+    {
+      let win = true;
+      for (let i = 0; i < 3; i++) {
+        if (pattern[i * 3 + y] !== color) win = false;
       }
-      function willWin(pattern, color) {
-        for (let i = 0; i < 3; i++) {
-          for (let j = 0; j < 3; j++) {
-            if (pattern[i][j] !== 0) continue;
-            let clonePattern = clone(pattern);
-            clonePattern[i][j] = color;
-            if (check(clonePattern, color, i, j)) return true;
-          }
+      if (win) return true;
+    }
+    {
+      let win = true;
+      for (let i = 0; i < 3; i++) {
+        if (pattern[i * 4] !== color) win = false;
+      }
+      if (win) return true;
+    }
+    {
+      let win = true;
+      for (let i = 0; i < 3; i++) {
+        if (pattern[i * 3 + 2 - i] !== color) win = false;
+      }
+      if (win) return true;
+    }
+    return false;
+  }
+
+  function willWin(pattern, color) {
+    for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (pattern[i * 3 + j]) continue;
+        let clonePattern = clone(pattern);
+        clonePattern[i * 3 + j] = color;
+        if (check(clonePattern, color, i, j)) return [i, j];
+      }
+    }
+    return false;
+  }
+
+  function bestChioce(pattern, color) {
+    let p;
+    if ((p = willWin(pattern, color))) {
+      return { point: p, result: 1 };
+    }
+    let result = -2;
+    let point = null;
+    outer: for (let i = 0; i < 3; i++) {
+      for (let j = 0; j < 3; j++) {
+        if (pattern[i * 3 + j]) continue;
+        let clonePattern = clone(pattern);
+        clonePattern[i * 3 + j] = color;
+        let r = bestChioce(clonePattern, 3 - color).result;
+
+        if (-r > result) {
+          result = -r;
+          point = [i, j];
         }
-        return false;
+        if (result === 1) break outer;
       }
-      function clone(obj) {
-        return JSON.parse(JSON.stringify(obj));
-      }
-      show();
-    </script>
-    <style>
-      .cell {
-        width: 50px;
-        height: 50px;
-        line-height: 50px;
-        font-size: 30px;
-        text-align: center;
-        border: 1px solid brown;
-        display: inline-block;
-        vertical-align: middle;
-      }
-    </style>
-  </body>
-</html>
+    }
+    return { point: point, result: point ? result : 0 };
+  }
+
+  function clone(obj) {
+    return Object.create(obj);
+  }
+
+  show(pattern);
+  // console.log(bestChioce(pattern, color));
+</script>
+<style>
+  .cell {
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 30px;
+    text-align: center;
+    border: 1px solid brown;
+    display: inline-block;
+    vertical-align: middle;
+  }
+</style>
