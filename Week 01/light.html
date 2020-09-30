@@ -1,0 +1,53 @@
+<div class="wrapper">
+  <div class="light green white"></div>
+  <div class="light yellow white"></div>
+  <div class="light red white"></div>
+</div>
+<script>
+  function switchColor(duration) {
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        resolve();
+      }, duration);
+    });
+  }
+  async function changeLight() {
+    document.getElementsByClassName("green")[0].classList.remove("white");
+    await switchColor(10000);
+    document.getElementsByClassName("green")[0].classList.add("white");
+    document.getElementsByClassName("yellow")[0].classList.remove("white");
+    await switchColor(2000);
+    document.getElementsByClassName("yellow")[0].classList.add("white");
+    document.getElementsByClassName("red")[0].classList.remove("white");
+    await switchColor(5000);
+    document.getElementsByClassName("red")[0].classList.add("white");
+  }
+  changeLight();
+  setInterval(() => {
+    changeLight();
+  }, 17000);
+</script>
+<style>
+  .wrapper {
+    display: flex;
+    margin: 30px;
+  }
+  .light {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin: 20px;
+  }
+  .red {
+    background-color: red;
+  }
+  .green {
+    background-color: green;
+  }
+  .yellow {
+    background-color: yellow;
+  }
+  .white {
+    background-color: white;
+  }
+</style>
