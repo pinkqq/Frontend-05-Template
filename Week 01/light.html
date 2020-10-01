@@ -4,28 +4,24 @@
   <div class="light red white"></div>
 </div>
 <script>
-  function switchColor(duration) {
+  function sleep(duration) {
     return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve();
-      }, duration);
+      setTimeout(resolve, duration);
     });
   }
-  async function changeLight() {
+  async function go() {
     document.getElementsByClassName("green")[0].classList.remove("white");
-    await switchColor(10000);
+    await sleep(10000);
     document.getElementsByClassName("green")[0].classList.add("white");
     document.getElementsByClassName("yellow")[0].classList.remove("white");
-    await switchColor(2000);
+    await sleep(2000);
     document.getElementsByClassName("yellow")[0].classList.add("white");
     document.getElementsByClassName("red")[0].classList.remove("white");
-    await switchColor(5000);
+    await sleep(5000);0/
     document.getElementsByClassName("red")[0].classList.add("white");
+    go();
   }
-  changeLight();
-  setInterval(() => {
-    changeLight();
-  }, 17000);
+  go();
 </script>
 <style>
   .wrapper {
