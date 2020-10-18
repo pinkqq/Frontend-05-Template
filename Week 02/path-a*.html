@@ -128,7 +128,7 @@
     }
 
     while (queue.length) {
-      let [x, y] = queue.give();
+      let [x, y] = queue.take();
       console.log([x, y]);
       if (x === end[0] && y === end[1]) {
         let path = [];
