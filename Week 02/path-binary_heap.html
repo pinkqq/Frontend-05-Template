@@ -1,0 +1,200 @@
+<style>
+  #container {
+    width: 500px;
+    display: flex;
+    flex-wrap: wrap;
+    border: 1px solid black;
+  }
+  .cell {
+    width: 5px;
+    height: 5px;
+    border: none;
+  }
+  .btn {
+    margin-top: 5px;
+  }
+</style>
+<div id="container"></div>
+<button
+  class="btn"
+  onclick="window.localStorage.setItem('map',JSON.stringify(map))"
+>
+  save
+</button>
+<script>
+  // todo: 保存时，清空路径
+  const map = window.localStorage.getItem("map")
+    ? JSON.parse(window.localStorage.getItem("map"))
+    : new Array(10000).fill(0);
+  const container = document.getElementById("container");
+  for (let y = 0; y < 100; y++) {
+    for (let x = 0; x < 100; x++) {
+      const cell = document.createElement("div");
+      cell.classList.add("cell");
+      if (map[100 * y + x]) {
+        cell.style.backgroundColor = "gray";
+      }
+      container.append(cell);
+      cell.addEventListener("mousemove", () => {
+        if (mousedown) {
+          cell.style.backgroundColor = "gray";
+          map[100 * y + x] = 1;
+        }
+        if (clear) {
+          cell.style.backgroundColor = "white";
+          map[100 * y + x] = 0;
+        }
+      });
+    }
+  }
+  let mousedown = false,
+    clear = false;
+  container.addEventListener("mousedown", (e) => {
+    if (e.which === 1) {
+      // 左键
+      mousedown = true;
+      clear = false;
+    } else if (e.which === 3) {
+      // 右键
+      mousedown = false;
+      clear = true;
+    }
+  });
+  container.addEventListener("mouseup", () => {
+    mousedown = false;
+    clear = false;
+  });
+
+  // 禁用浏览器默认右键菜单
+  window.oncontextmenu = (e) => {
+    e.preventDefault();
+  };
+
+  // ********************************* UI 👆
+  // ********************************* 搜索 👇
+
+  function parent(i) {
+    return Math.ceil(i / 2) - 1;
+  }
+
+  function left(i) {
+    return i * 2 + 1;
+  }
+
+  function right(i) {
+    return i * 2 + 2;
+  }
+
+  /*
+    当根元素在索引为1的位置时：
+    1. 左子树 2*i+1
+    2. 右子树 2*i+2
+    3. 父节点 Math.ceil(i/2)-1
+  */
+
+  class BinaryHeap {
+    constructor(data, compare) {
+      this.data = data.slice();
+      this.compare = compare || ((a, b) => a - b);
+    }
+    swap(a, b) {
+      let temp = this.data[a];
+      this.data[a] = this.data[b];
+      this.data[b] = temp;
+    }
+    heap_up() {
+      let i = this.data.length - 1;
+      while (i > 0) {
+        if (this.compare(this.data[i], this.data[parent(i)]) > 0) {
+          break;
+        }
+        this.swap(i, parent(i));
+        i = parent(i);
+      }
+    }
+    heap_down() {
+      this.data[0] = this.data[this.length - 1];
+      this.data.pop();
+      let i = 0;
+      while (left(i) < this.length || right(i) < this.length) {
+        const minChildIndex =
+          right(i) > this.length - 1
+            ? left(i)
+            : this.compare(this.data[left(i)], this.data[right(i)]) < 0
+            ? left(i)
+            : right(i);
+        if (this.compare(this.data[i], this.data[minChildIndex]) < 0) {
+          break;
+        }
+        this.swap(minChildIndex, i);
+        i = minChildIndex;
+      }
+    }
+    take() {
+      if (!this.data.length) {
+        return;
+      }
+      let min = this.data[0];
+      this.heap_down();
+      return min;
+    }
+    give(v) {
+      this.data.push(v);
+      this.heap_up();
+    }
+    get length() {
+      return this.data.length;
+    }
+  }
+
+  function sleep(duration) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, duration);
+    });
+  }
+
+  // 广度优先搜索
+  async function findPath(map, start, end) {
+    let table = Object.create(map);
+    let queue = new BinaryHeap([start], (a, b) => distance(a) - distance(b));
+    function distance(point) {
+      return (end[0] - point[0]) ** 2 + (end[1] - point[1]) ** 2;
+    }
+    async function insert(x, y, pre) {
+      if (x < 0 || x >= 100 || y < 0 || y >= 100) {
+        return;
+      }
+      if (table[y * 100 + x]) {
+        return;
+      }
+      await sleep(15);
+      container.children[y * 100 + x].style.backgroundColor = "lightgreen";
+      table[y * 100 + x] = pre;
+      queue.give([x, y]);
+    }
+
+    while (queue.length) {
+      let [x, y] = queue.take();
+      console.log([x, y]);
+      if (x === end[0] && y === end[1]) {
+        let path = [];
+        while (x !== start[0] || y !== start[1]) {
+          path.push(map[y * 100 + x]);
+          [x, y] = table[y * 100 + x];
+          container.children[y * 100 + x].style.backgroundColor = "red";
+        }
+        return path;
+      }
+      await insert(x + 1, y, [x, y]);
+      await insert(x - 1, y, [x, y]);
+      await insert(x, y + 1, [x, y]);
+      await insert(x, y - 1, [x, y]);
+
+      await insert(x + 1, y + 1, [x, y]);
+      await insert(x - 1, y - 1, [x, y]);
+      await insert(x - 1, y + 1, [x, y]);
+      await insert(x + 1, y - 1, [x, y]);
+    }
+    return null;
+  }
+</script>
