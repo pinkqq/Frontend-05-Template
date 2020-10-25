@@ -113,6 +113,50 @@
     if (source[0].type === "MutiplicativeExpression") return source;
     return MutiplicativeExpression(source);
   }
-  console.log(string);
-  console.log(AdditiveExpression(source));
+  let expression = Expression(source);
+  console.log(expression);
+
+  // 计算最终结果
+  function compute(expression) {
+    if (expression.type === "Number") {
+      return expression.value;
+    }
+    if (
+      expression.type === "MutiplicativeExpression" &&
+      expression.operator === "*"
+    ) {
+      return compute(expression.children[0]) * compute(expression.children[2]);
+    }
+    if (
+      expression.type === "MutiplicativeExpression" &&
+      expression.operator === "/"
+    ) {
+      return compute(expression.children[0]) / compute(expression.children[2]);
+    }
+    if (expression.type === "MutiplicativeExpression") {
+      return expression.children.value;
+    }
+    if (
+      expression.type === "AdditiveExpression" &&
+      expression.operator === "+"
+    ) {
+      return (
+        parseInt(compute(expression.children[0])) +
+        parseInt(compute(expression.children[2]))
+      );
+    }
+    if (
+      expression.type === "AdditiveExpression" &&
+      expression.operator === "-"
+    ) {
+      return (
+        parseInt(compute(expression.children[0])) -
+        parseInt(compute(expression.children[2]))
+      );
+    }
+    if (expression.type === "AdditiveExpression") {
+      return compute(expression.children[0]);
+    }
+  }
+  console.log(compute(expression[0].children[0]));
 </script>
