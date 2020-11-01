@@ -1,0 +1,59 @@
+<script>
+  // 字符串结束 唯一标识符
+  let $ = Symbol("$");
+  class Trie {
+    constructor() {
+      // 防止原型链上属性冲突
+      this.root = Object.create(null);
+    }
+    // 插入字符串
+    insert(word) {
+      let node = this.root;
+      for (const c of word) {
+        // 无重复时 添加节点
+        if (!node[c]) node[c] = Object.create(null);
+        node = node[c];
+      }
+      if (!($ in node)) {
+        node[$] = 0;
+      }
+      // 记录重复字符串个数
+      node[$]++;
+    }
+
+    most(word) {
+      let max = 0;
+      let maxWord = null;
+      // 递归，结束条件：(key in node) 为false
+      let visit = function (node, word) {
+        if (node[$] && node[$] > max) {
+          max = node[$];
+          maxWord = word;
+        }
+        for (const key in node) {
+          visit(node[key], word + key);
+        }
+      };
+      // 从根节点开始访问
+      visit(this.root, "");
+      console.log(maxWord, max);
+    }
+  }
+
+  function randomWord(length) {
+    let s = "";
+    for (let i = 0; i < length; i++) {
+      // 随机生成 a - z 的字符
+      // 不需要取整，76.66666与76 对应同一个字符
+      // Math.random()*(max-min)+max 取值范围：min ~ max
+      s += String.fromCharCode(Math.random() * 26 + "a".charCodeAt(0));
+    }
+    return s;
+  }
+
+  let trie = new Trie();
+  for (let i = 0; i < 100000; i++) {
+    trie.insert(randomWord(4));
+  }
+  trie.most();
+</script>

@@ -1,0 +1,56 @@
+<script>
+  // ?：匹配任意字符
+  // *：匹配长度大于等于0的任意字符串
+  // ab*b*bx*c
+  // ab*b*b?x*c
+  function find(source, pattern) {
+    // 计算star个数
+    let starCount = 0;
+    for (let i = 0; i < pattern.length; i++) {
+      if (pattern[i] === "*") starCount++;
+    }
+    // star = 0 完全匹配
+    if (starCount === 0) {
+      for (let i = 0; i < pattern.length; i++) {
+        if (patter[i] !== source[i] && pattern[i] !== "?") return false;
+      }
+      return true;
+    }
+    // 第一个star前字符
+    let i = 0,
+      lastIndex = 0;
+    for (i; i < pattern.length && pattern[i] !== "*"; i++) {
+      if (pattern[i] !== source[i] && pattern[i] !== "?") {
+        return false;
+      }
+    }
+    lastIndex = i;
+    // 前面的star
+    for (let s = 0; s < starCount - 1; s++) {
+      i++;
+      let subStr = "";
+      while (pattern[i] !== "*") {
+        subStr = subStr + pattern[i];
+        i++;
+      }
+      let reg = new RegExp(subStr.replace("/\?/g", "/\\s\\S/"), "g");
+      reg.lastIndex = lastIndex;
+      if (!reg.exec(source)) return false;
+      lastIndex = reg.lastIndex;
+    }
+    // 最后的star
+    for (
+      let j = 1;
+      j <= source.length - lastIndex && pattern[pattern.length - j] !== "*";
+      j++
+    ) {
+      if (
+        pattern[pattern.length - j] !== source[source.length - j] &&
+        pattern[pattern.length - j] !== "?"
+      ) {
+        return false;
+      }
+    }
+    return true;
+  }
+</script>
