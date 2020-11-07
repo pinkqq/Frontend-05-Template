@@ -1,0 +1,63 @@
+<div id="container">
+  <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+  <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+  <p>xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+  <p>xxxxxaaaaaaaaxxxxxxxxxxxxxxxxxxbbbbbbddffcslksjadlfasflxxxxxxxxxxx</p>
+</div>
+<div
+  id="dragable"
+  style="
+    display: inline-block;
+    width: 100px;
+    height: 100px;
+    background-color: lightslategray;
+  "
+></div>
+<script>
+  const dragable = document.getElementById("dragable");
+  dragable.addEventListener("mousedown", (event) => {
+    const up = (event) => {
+      document.removeEventListener("mousemove", move);
+      document.removeEventListener("mouseup", up);
+    };
+    const move = (event) => {
+      //正常流
+      let range = findNearest(event.clientX, event.clientY);
+      range.insertNode(dragable);
+    };
+    document.addEventListener("mousemove", move);
+    document.addEventListener("mouseup", up);
+  });
+
+  // 可插入区域 range 表
+  const container = document.getElementById("container");
+  let ranges = [];
+  for (let i = 0; i < container.children.length; i++) {
+    for (let j = 0; j < container.children[i].childNodes[0].length; j++) {
+      let range = document.createRange();
+      range.setStart(container.children[i].childNodes[0], j);
+      range.setEnd(container.children[i].childNodes[0], j);
+      ranges.push(range);
+    }
+  }
+
+  // 寻找最近可插入点
+  function findNearest(x, y) {
+    let min = Infinity;
+    let nearest = null;
+    for (range of ranges) {
+      let rect = range.getBoundingClientRect();
+      let distance = (rect.x - x) ** 2 + (rect.y - y) ** 2;
+      if (distance < min) {
+        nearest = range;
+        min = distance;
+      }
+    }
+    return nearest;
+  }
+
+  // 禁止选中事件
+  document.addEventListener("selectstart", (event) => {
+    event.preventDefault();
+  });
+</script>
