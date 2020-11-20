@@ -68,7 +68,7 @@
 ### 重学 JavaScript
 
 - 字面值和运行时的类型
-- **7+1 基本类型**：Symbol(专门用于对象属性名)、Object、String、Number、Boolean、Null、Undefined + BigInt
+- **7+1 基本类型**：Symbol(专门用于对象属性名)、Object、String、Number、Boolean、Null、Undefined、（BigInt）
 - **Number**
   - 64 位双精度浮点数：符号（1）、指数（11）、精度（52）
 - **数字与点运算**：语法冲突
@@ -88,8 +88,9 @@
     1. 首字符串：`abc\${
     2. 中间字符串：}abc\${
     3. 尾字符串：}abc`
-  - 标签函数
+  - 标签函数（函数名 + 反引号字符串）
     ```
+    func`that ${template} is a ${params}`
     console.log`that ${template} is a ${params}`
     // ['that', 'is a'] template params
     // 此处 console.log 作为函数名
