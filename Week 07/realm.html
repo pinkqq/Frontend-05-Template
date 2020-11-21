@@ -88,7 +88,7 @@
             (d.value !== null && typeof d.value === "object") ||
             typeof d.value === "function"
           ) {
-            child.children.push({ id: `${key}-${k}` });
+            child.children.push({ id: `${key}-${k}`, label: k });
           }
         }
         initData.children.push(child);
@@ -152,7 +152,7 @@
         }
 
         return {
-          label: node.id,
+          label: node.label || node.id,
           labelCfg: {
             position:
               node.children && node.children.length > 0
@@ -168,7 +168,6 @@
       graph.render(); // 渲染
       graph.fitView();
     };
-    console.log(getRealmObj());
     render(getRealmObj());
   </script>
 </html>
