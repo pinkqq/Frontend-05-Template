@@ -19,7 +19,7 @@
 
   1. 封装一个私有变量
 
-     ```
+     ```javascript
       function create_counter(initial){
         let x = initial || 0;
         return function(){
@@ -37,7 +37,7 @@
 
   2. 多参数函数->单参数函数
 
-     ```
+     ```javascript
        function make_pow(n){
           return function(x){
             return Math.pow(n,x)
@@ -51,7 +51,7 @@
 
 - generator 在执行过程中多次返回，所以它看上去像一个可以记住执行状态的函数。
 
-  ```
+  ```javascript
   // 斐波那契数列
   // (0,1,1,2,3,5,8,13,21,34,55,...)
 

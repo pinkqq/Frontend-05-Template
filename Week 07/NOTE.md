@@ -25,8 +25,8 @@
   2. **New**
      - new Foo
 
-  ```
-    eg.
+  ```js
+    // eg.
       new a()()
       new new a()
   ```

@@ -72,7 +72,7 @@
 - **Number**
   - 64 位双精度浮点数：符号（1）、指数（11）、精度（52）
 - **数字与点运算**：语法冲突
-  ```
+  ```js
     0.toString() // error 不知道是小数点 还是点运算
     0 .toString() // 解决：加空格
   ```
@@ -89,7 +89,7 @@
     2. 中间字符串：}abc\${
     3. 尾字符串：}abc`
   - 标签函数（函数名 + 反引号字符串）
-    ```
+    ```js
     func`that ${template} is a ${params}`
     console.log`that ${template} is a ${params}`
     // ['that', 'is a'] template params
@@ -120,18 +120,18 @@
 
 - **\*\* 次方**：右结合
 
-  ```
+  ```js
   2**1**2 // 2
   ```
 
 - **图灵机**：数学模型，只要图灵机可以被实现，就可以用来解决任何可计算的问题。
 - js 诟病
-  ```
+  ```js
   typeof null // object
   ```
 - **十进制与二进制转换**
 
-  ```
+  ```js
   const num = 10;
 
   // number.toString(radis)  十进制->radis
@@ -160,7 +160,7 @@
 
     - <div style="background-color:yellow">注意 第一个参数会先转为字符串</div>
 
-    ```
+    ```js
         parseInt(015, 10); // 13
         parseInt('015', 10); // 15
     ```
@@ -169,7 +169,7 @@
 
 - 函数表达式、函数声明
 
-  ```
+  ```js
     // 函数声明
     function abc(){}
     // 函数表达式

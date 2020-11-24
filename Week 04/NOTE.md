@@ -66,12 +66,12 @@ graph LR
 ##### 其他
 
 - 取 min ~ max 之间随意数字：Math.random( ) \* ( max - min ) + max
-- ```
+- ```js
   String.fromCharCode(76) // “L”
   String.fromCharCode(76.1111) // “L”
   String.fromCharCode(76.9999) // “L”
   ```
-- ```
+- ```js
   // node[key] === false | 0 | undefinded | null
   if( node[key] ){}
 
