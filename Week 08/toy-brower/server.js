@@ -6,7 +6,7 @@ http
       .on("error", (error) => console.log(error))
       .on("data", (chunk) => {
         console.log("chunk:", chunk);
-        body.push(chunk.toString());
+        body.push(chunk);
       })
       .on("end", () => {
         body = Buffer.concat(body).toString();
@@ -15,5 +15,5 @@ http
         response.end("Hello Node\n");
       });
   })
-  .listen(8088);
-console.log("Server running at http://127.0.0.1:8088/");
+  .listen(3000);
+console.log("Server running at http://127.0.0.1:3000/");
