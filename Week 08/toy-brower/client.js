@@ -56,11 +56,11 @@ class Request {
 
   toString() {
     return `${this.method} ${this.path} HTTP/1.1\r
-    ${Object.keys(this.headers)
-      .map((key) => `${key}:${this.headers[key]}`)
-      .join("\r\n")}\r
-    \r
-    ${this.bodyText}`;
+${Object.keys(this.headers)
+  .map((key) => `${key}: ${this.headers[key]}`)
+  .join("\r\n")}\r
+\r
+${this.bodyText}`;
   }
 }
 
@@ -77,7 +77,7 @@ class ResponseParser {
 
     this.current = this.WAITING_STATUS_LINE;
     this.statusLine = "";
-    this.headers = [];
+    this.headers = {};
     this.headerName = "";
     this.headerValue = "";
     this.bodyParser = null;

@@ -50,7 +50,7 @@ G[物理层]-->H[4G/5G/Wifi]
 
 - **实现流程**
   - HTTP 请求
-    1. 设计一个 HTTP 请求的类
+    1. 设计一个 HTTP 请求的类 `Request`
     2. content-type 是一个必要的字段
     3. body 是 KV 格式
     4. 不同的 content-type 会影响 body 格式
