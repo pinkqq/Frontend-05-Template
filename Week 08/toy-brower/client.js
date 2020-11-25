@@ -53,6 +53,7 @@ class Request {
       });
     });
   }
+
   toString() {
     return `${this.method} ${this.path} HTTP/1.1\r
     ${Object.keys(this.headers)
@@ -62,6 +63,7 @@ class Request {
     ${this.bodyText}`;
   }
 }
+
 class ResponseParser {
   constructor() {
     this.WAITING_STATUS_LINE = 0;
@@ -162,6 +164,7 @@ class TrunkedBodyParser {
     this.isFinished = false;
     this.current = this.WAITING_LENGTH;
   }
+
   receiveChar(char) {
     if (this.current === this.WAITING_LENGTH) {
       if (char === "\r") {
@@ -194,14 +197,19 @@ class TrunkedBodyParser {
     }
   }
 }
+
 void (async function () {
   let request = new Request({
     method: "POST",
     host: "127.0.0.1",
-    port: 8088,
+    port: 3000,
     path: "/",
-    headers: { ["X-Foo2"]: "customed" },
-    body: { name: "xqq" },
+    headers: {
+      ["X-Foo2"]: "customed",
+    },
+    body: {
+      name: "xqq",
+    },
   });
   let response = await request.send();
   console.log(response);
