@@ -3,11 +3,10 @@
 - Proxy 对象用于定义基本操作的自定义行为（如属性查找、赋值、枚举、函数调用等）
 
 ```js
- const p = new Proxy(target, handler)
+const p = new Proxy(target, handler);
 
- // target: 要使用 Proxy 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
- // handler: 一个通常以函数作为属性的对象，各属性中的函数分别定义了在执行各种操作时代理 p 的行为。
-
+// target: 要使用 Proxy 包装的目标对象（可以是任何类型的对象，包括原生数组，函数，甚至另一个代理）。
+// handler: 一个通常以函数作为属性的对象，各属性中的函数分别定义了在执行各种操作时代理 p 的行为。
 ```
 
 ### Map
@@ -24,42 +23,43 @@
   | 性能 | 频繁增删键值对的场景下表现更好 | 未做优化 |
 
 - ```js
-    let myMap = new Map();
-    myMap.set("one","我是一个值")
+  let myMap = new Map();
+  myMap.set("one", "我是一个值");
 
-    /* --------- length vs size ---------- */
-    myMap.length // undefined
-    myMap.size // 1
+  /* --------- length vs size ---------- */
+  myMap.length; // undefined
+  myMap.size; // 1
 
-    /* --------- 将 NAN 作为键 ----------  */
-    myMap.set(NAN,"not a number")
-    myMap.get(NAN) // "not a number"
-    myMap.get(Number('foo')) // "not a number"
+  /* --------- 将 NAN 作为键 ----------  */
+  myMap.set(NAN, "not a number");
+  myMap.get(NAN); // "not a number"
+  myMap.get(Number("foo")); // "not a number"
 
-    /* --------- 使用 for..of 方法迭代 Map ---------- */
-    for (let [key, value] of myMap) {
-      console.log(key + " = " + value);
-    }
-    for (let key of myMap.keys()) {
-      console.log(key);
-    }
-    for (let value of myMap.values()) {
-      console.log(value);
-    }
+  /* --------- 使用 for..of 方法迭代 Map ---------- */
+  for (let [key, value] of myMap) {
+    console.log(key + " = " + value);
+  }
+  for (let key of myMap.keys()) {
+    console.log(key);
+  }
+  for (let value of myMap.values()) {
+    console.log(value);
+  }
 
-    /* --------- 使用 forEach() 方法迭代 Map ----------*/
-    myMap.forEach(function(value, key) {
-      console.log(key + " = " + value);
-    })
+  /* --------- 使用 forEach() 方法迭代 Map ----------*/
+  myMap.forEach(function (value, key) {
+    console.log(key + " = " + value);
+  });
 
-    /* --------- Map 与数组的关系 ---------- */
-    // 使用常规的Map构造函数可以将一个二维键值对数组转换成一个Map对象
-    let myMap = new Map(kvArray);
-    // 更简洁的方法来做如上同样的事情，使用展开运算符
-    console.log([...myMap]);
-    // 或者在键或者值的迭代器上使用Array.from，进而得到只含有键或者值的数组
-    console.log(Array.from(myMap.keys())); // 输出 ["key1", "key2"]
-
+  /* --------- Map 与数组的关系 ---------- */
+  // 使用常规的Map构造函数 可以将一个 [二维键值对数组] 转换成一个 [Map对象]
+  let myMap = new Map(kvArray);
+  // 使用Array.from函数 可以将一个 [Map对象] 转换成一个 [二维键值对数组]
+  console.log(Array.from(myMap));
+  // 更简洁的方法来做如上同样的事情，使用展开运算符
+  console.log([...myMap]);
+  // 或者在键或者值的迭代器上使用Array.from，进而得到只含有键或者值的数组
+  console.log(Array.from(myMap.keys())); // 输出 ["key1", "key2"]
   ```
 
 ### @VUE 3.0/reactivity

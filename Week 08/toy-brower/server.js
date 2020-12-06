@@ -12,7 +12,7 @@ http
         body = Buffer.concat(body).toString();
         console.log("body:", body);
         response.writeHead(200, { "Content-Type": "text/html" });
-        response.end("Hello Node\n");
+        response.end("<div>hello brower!</div>");
       });
   })
   .listen(3000);
