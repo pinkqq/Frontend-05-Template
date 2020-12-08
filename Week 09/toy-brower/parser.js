@@ -13,13 +13,13 @@ function match(element, selector) {
   // 判断是否为文本节点
   if (!selector || !element.attributes) return false;
   if (selector.charAt(0) === ".") {
-    let attr = element.attributes.filter((attr) => attr === "class");
-    if (attr && attr.value === selector.replace(".", "")) {
+    let attr = element.attributes.filter((attr) => attr.name === "class");
+    if (attr[0] && attr[0].value === selector.replace(".", "")) {
       return true;
     }
   } else if (selector.charAt(0) === "#") {
-    let attr = element.attributes.filter((attr) => attr === "id");
-    if (attr && attr.value === selector.replace("#", "")) {
+    let attr = element.attributes.filter((attr) => attr.name === "id");
+    if (attr[0] && attr[0].value === selector.replace("#", "")) {
       return true;
     }
   } else {
