@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>:visited</title>
+  </head>
+  <body>
+    <style>
+      :link,
+      :visited {
+        /* for all links */
+        text-decoration: underline;
+      }
+
+      :link {
+        /* for unvisited links */
+        color: rgb(255, 0, 0);
+      }
+
+      :visited {
+        /* for visited links */
+        color: rgb(0, 255, 0);
+      }
+    </style>
+    <a class="my-link" href="https://baidu.com">baidu.com</a>
+    <a href="https://taobao.com">taobao.com</a>
+    <a href="https://123.com">123.com</a>
+    <script>
+      var links = document.links;
+      for (var i = 0; i < links.length; ++i) {
+        var link = links[i];
+        /* exact strings to match actually need to be
+       auto-detected using reference elements */
+        if (getComputedStyle(link, "").color == "rgb(0, 0, 128)") {
+          console.log("link:", link);
+          // we know link.href has not been visited
+        } else {
+          console.log("visited:", link);
+          // we know link.href has been visited
+        }
+      }
+    </script>
+  </body>
+</html>
