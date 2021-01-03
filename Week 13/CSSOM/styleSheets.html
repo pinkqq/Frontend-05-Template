@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSSOM-styleSheets</title>
+    <link rel="stylesheet" href="data:text/css,p%7Bcolor:blue%7D" />
+  </head>
+  <body>
+    <style>
+      a::before {
+        content: "hello ";
+        color: #f00;
+      }
+    </style>
+    <a href="">world</a>
+    <script>
+      document.styleSheets;
+      // StyleSheetList {0: CSSStyleSheet, 1: CSSStyleSheet, length: 2}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Event bubbling and capture</title>
+  </head>
+  <body>
+    <div id="a">
+      a
+      <div id="b">b</div>
+    </div>
+    <style>
+      div {
+        border: 1px solid #000;
+        padding: 20px;
+      }
+    </style>
+    <script>
+      document.getElementById("a").addEventListener("click", function (event) {
+        console.log("bubbling a");
+      });
+      document.getElementById("b").addEventListener("click", function () {
+        console.log("bubbling b");
+      });
+
+      document.getElementById("a").addEventListener(
+        "click",
+        function () {
+          console.log("capture a");
+        },
+        { capture: true, once: true }
+      );
+      document.getElementById("b").addEventListener(
+        "click",
+        function () {
+          console.log("capture b");
+        },
+        true
+      );
+    </script>
+  </body>
+</html>

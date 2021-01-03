@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rects</title>
+  </head>
+  <body>
+    <style>
+      .rect::before {
+        content: "伪元素 伪元素 伪元素";
+        background-color: darkcyan;
+      }
+      .rect {
+        background-color: darkgoldenrod;
+      }
+    </style>
+    <div>
+      <div style="width: 100px">
+        文字 文字 文字 文字 <span class="rect">wenzi wenzi wenzi wenzi</span>
+      </div>
+    </div>
+    <script>
+      // 获取浏览器 layout 后，元素的真实位置
+      document.querySelector(".rect").getClientRects();
+      // DOMRectList {0: DOMRect, 1: DOMRect, 2: DOMRect, 3: DOMRect, 4: DOMRect, length: 5}
+      // - 0: DOMRect {x: 66.65625, y: 30, width: 32, height: 22, top: 30, …}
+      // - 1: DOMRect {x: 8, y: 52, width: 90.65625, height: 22, top: 52, …}
+      // - 2: DOMRect {x: 8, y: 74, width: 73.796875, height: 22, top: 74, …}
+      // - 3: DOMRect {x: 8, y: 96, width: 88.921875, height: 22, top: 96, …}
+      // - 4: DOMRect {x: 8, y: 118, width: 41.796875, height: 22, top: 118, …}
+      // - length: 5
+      //   __proto__: DOMRectList
+      document.querySelector(".rect").getBoundingClientRect();
+    </script>
+  </body>
+</html>
