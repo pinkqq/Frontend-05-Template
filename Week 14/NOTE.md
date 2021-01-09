@@ -135,3 +135,11 @@
 ## 组件实战：轮播图
 
 - `<img/>`: 默认可拖拽。用 `background-image` 替代。
+- 思路
+  - 正常流 `inline-block` 排列轮播元素
+  - 通过 `translateX ( - position * width ) ` 顺时针自动轮播
+  - move：计算当前元素和 next 元素位置，实现循环滚动
+  - 组合 mousedown、mousemove、mouseup ，实现手动拖拽滚动效果
+  - move：计算 pre、current、next 元素的位置，实现首尾相连
+  - down：因为需要过渡效果，出现飘移元素；
+    - fix：根据滚动方向，判断当前滚动相关元素[-1 or 1]
