@@ -11,7 +11,7 @@ export class Dispatch {
     for (const name in properties) {
       event[name] = properties[name];
     }
-    element.dispatchEvent(event);
+    this.element.dispatchEvent(event);
   }
 }
 
