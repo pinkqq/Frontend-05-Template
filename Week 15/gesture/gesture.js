@@ -1,4 +1,3 @@
-let element = document.documentElement;
 let contents = new Map();
 let isListeningMouse = false;
 
@@ -51,14 +50,14 @@ export class Listener {
         Recoginizer.end(event, content);
         contents.delete("mouse" + (1 << event.button));
         if (event.buttons === 0) {
-          document.removeEventListener("mousemove", mousemove);
-          document.removeEventListener("mouseup", mouseup);
+          element.removeEventListener("mousemove", mousemove);
+          element.removeEventListener("mouseup", mouseup);
           isListeningMouse = false;
         }
       };
       if (!isListeningMouse) {
-        document.addEventListener("mousemove", mousemove);
-        document.addEventListener("mouseup", mouseup);
+        element.addEventListener("mousemove", mousemove);
+        element.addEventListener("mouseup", mouseup);
         isListeningMouse = true;
       }
     });
@@ -66,7 +65,7 @@ export class Listener {
     /*
      ** touch event
      */
-    document.addEventListener("touchstart", (event) => {
+    element.addEventListener("touchstart", (event) => {
       // debugger;
       for (const touch of event.changedTouches) {
         let content = Object.create(null);
@@ -74,20 +73,20 @@ export class Listener {
         Recoginizer.start(touch, content);
       }
     });
-    document.addEventListener("touchmove", (event) => {
+    element.addEventListener("touchmove", (event) => {
       for (const touch of event.changedTouches) {
         let content = contents.get(touch.identifier);
         Recoginizer.move(touch, content);
       }
     });
-    document.addEventListener("touchend", (event) => {
+    element.addEventListener("touchend", (event) => {
       for (const touch of event.changedTouches) {
         let content = contents.get(touch.identifier);
         Recoginizer.end(touch, content);
         contents.delete(touch, touch.identifier);
       }
     });
-    document.addEventListener("touchcancel", (event) => {
+    element.addEventListener("touchcancel", (event) => {
       for (const touch of event.changedTouches) {
         let content = contents.get(touch.identifier);
         Recoginizer.cancel(touch, content);
@@ -104,7 +103,7 @@ export class Listener {
   }
 }
 
-export class Recoginizer {
+export class Recognizer {
   constructor(dispatcher) {
     this.dispatcher = dispatcher;
   }
@@ -225,5 +224,5 @@ export class Recoginizer {
 }
 
 export function EnableGestrue(element) {
-  return new Listener(element, new Recoginizer(new Dispatch(element)));
+  return new Listener(element, new Recognizer(new Dispatch(element)));
 }
