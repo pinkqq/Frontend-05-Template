@@ -91,7 +91,7 @@ export class Listener {
       for (const touch of event.changedTouches) {
         let content = contents.get(touch.identifier);
         Recoginizer.cancel(touch, content);
-        contents.delete(touch, identifier);
+        contents.delete(touch, touch.identifier);
       }
     });
 
