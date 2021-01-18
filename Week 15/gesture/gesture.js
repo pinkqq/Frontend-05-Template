@@ -50,14 +50,14 @@ export class Listener {
         Recoginizer.end(event, content);
         contents.delete("mouse" + (1 << event.button));
         if (event.buttons === 0) {
-          element.removeEventListener("mousemove", mousemove);
-          element.removeEventListener("mouseup", mouseup);
+          document.removeEventListener("mousemove", mousemove);
+          document.removeEventListener("mouseup", mouseup);
           isListeningMouse = false;
         }
       };
       if (!isListeningMouse) {
-        element.addEventListener("mousemove", mousemove);
-        element.addEventListener("mouseup", mouseup);
+        document.addEventListener("mousemove", mousemove);
+        document.addEventListener("mouseup", mouseup);
         isListeningMouse = true;
       }
     });
