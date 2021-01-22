@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div
+      id="a"
+      style="width: 100px; height: 100px; background-color: darkcyan"
+    ></div>
+    <div
+      id="b"
+      style="width: 100px; height: 100px; background-color: rebeccapurple"
+    ></div>
+  </body>
+  <script>
+    let a = document.getElementById("a");
+    let b = document.getElementById("b");
+    a.addEventListener("touchend", (event) => {
+      console.log("a");
+      console.log("changeTouches", event.changedTouches);
+      console.log("target", event.targetTouches);
+    });
+    b.addEventListener("touchend", (event) => {
+      console.log("b");
+      console.log("changeTouches", event.changedTouches);
+      console.log("target", event.targetTouches);
+    });
+  </script>
+</html>
