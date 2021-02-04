@@ -7,7 +7,7 @@ let currentAttribute = "";
 let currentTextNode = null;
 const EOF = Symbol("EOF"); // end of file
 
-let stack = [{ type: "document", children: [] }];
+let stack;
 
 function match(element, selector) {
   // 目前只处理简单选择器
@@ -60,7 +60,7 @@ function compare(sp1, sp2) {
   }
 }
 
-let rules = [];
+let rules;
 // 把 css 规则暂存到一个数组里
 function addCSSRules(text) {
   var ast = css.parse(text);
@@ -138,7 +138,7 @@ function emit(token) {
     } else {
       // ************* 遇到style标签，执行CSS规则的操作***********
       if (top.tagName === "style") {
-        addCSSRules(top.children[0].content);
+        top.children.length && addCSSRules(top.children[0].content);
       }
       layout(top);
       stack.pop();
@@ -176,7 +176,11 @@ function tagOpen(c) {
   } else if (c === "/") {
     return endTagOpen;
   } else {
-    return;
+    emit({
+      type: "text",
+      content: c,
+    });
+    return data;
   }
 }
 function endTagOpen(c) {
@@ -207,6 +211,7 @@ function tagName(c) {
 }
 function beforeAttributeName(c) {
   if (c === ">") {
+    emit(currentToken);
     return data;
   } else if (c === "=") {
     return beforeAttributeName;
@@ -259,7 +264,7 @@ function beforeAttributeValue(c) {
     return SingleQuoteattributeValue;
   } else if (c === ">") {
   } else {
-    UnquoteAttributeValue(c);
+    return UnquoteAttributeValue(c);
   }
 }
 function DoubleQuoteattributeValue(c) {
@@ -330,11 +335,17 @@ function selfClosingStartTag(c) {
   }
 }
 
-module.exports.parseHTML = (html) => {
+export function parseHTML(html) {
+  rules = [];
+  currentToken = "";
+  currentAttribute = "";
+  currentTextNode = null;
+  stack = [{ type: "document", children: [] }];
+
   let state = data;
   for (const c of html) {
     state = state(c);
   }
   state = state(EOF);
   return stack[0];
-};
+}

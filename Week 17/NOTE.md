@@ -4,7 +4,7 @@
 
 - **Getting Started**
 
-  - `npm install --save yeoman-generator`
+  - `npm install --save-dev yeoman-generator`
     `npm install -g yo`
 
   - ```
@@ -281,15 +281,17 @@
 
 - **npx**
 
-  - 主要特点
+  - **主要特点**
 
     1. 临时安装可执行依赖包，不用全局安装，不用担心长期的污染。
     2. 可以执行依赖包中的命令，安装完成自动运行。
     3. 自动加载 node_modules 中依赖包，不用指定$PATH。
     4. 可以指定 node 版本、命令的版本，解决了不同项目使用不同版本的命令的问题。
 
-    ```
-    npx用来解决全局命令行工具只能有一个的问题。
+  - **npx 用来解决全局命令行工具只能有一个的问题。**
 
-    比如装个webpack,使用的是4.x，可是已经装了全局的1.x版本并且还要继续使用，这个时候可以不装在全局，用npx webpack代替webpack命令，互不干扰。
-    ```
+    > 比如装个 webpack,使用的是 4.x，可是已经装了全局的 1.x 版本并且还要继续使用，这个时候可以不装在全局，用 npx webpack 代替 webpack 命令，互不干扰。
+
+  - **npm vs npx**
+    > npm 是一个 node package 安装工具。
+    > npx 的作用是先检查本地有没有安装某个 package，如果没有去远程 registry 找，找到的话直接使用，不用下载到本地 node-modules 包里面，这样就能优化本地项目的大小，也可以避免安装 package 到全局。

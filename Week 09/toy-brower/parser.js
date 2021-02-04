@@ -70,7 +70,7 @@ function computeCSS(element) {
   if (!element.computedStyle) {
     element.computedStyle = {}; // 保存 css 属性
   }
-  for (rule of rules) {
+  for (let rule of rules) {
     let selectorParts = rule.selectors[0].split(" ").reverse(); // 使选择器的排序和父元素排序相同
     // 第一个选择器和自身元素是否匹配；
     if (!match(element, selectorParts[0])) continue;
